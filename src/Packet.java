@@ -4,14 +4,20 @@ public class Packet {
 	byte ID;
 	int CheckSum;
 	String data;
-	static byte idCount = 0;
-	
-	Packet(String input){
+	static byte idCount = 1;
+
+	Packet(String input){//for creating packets from the sender
 		this.sequenceNum = 0;
 		this.ID = idCount;
 		this.CheckSum = sum(input);
 		this.data = input;
 		idCount ++;
+	}
+	Packet(byte seq, byte id, int sum, String data){//for creating packets by network and rec
+		this.sequenceNum = seq;
+		this.ID = id;
+		this.CheckSum = sum;
+		this.data = data;
 	}
 	int sum(String input) {
 		int sum = 0;
@@ -24,10 +30,13 @@ public class Packet {
 		return ID;
 	}
 	int getCheckSum(){
-		return 0;
+		return CheckSum;
 	}
-	int getData() {
-		return 0;
+	String getData() {
+		return data;
+	}
+	byte getseqNum(){
+		return sequenceNum;
 	}
 	void corrupt() {
 		this.CheckSum += 1;
