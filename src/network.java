@@ -2,6 +2,7 @@ import java.net.*;
 import java.io.*;
 import java.util.*;
 
+
 public class network {
 	private ServerSocket serverSocket;
   private Socket senderSocket;
@@ -9,6 +10,8 @@ public class network {
   private PrintWriter out;
   private BufferedReader in;
 	private Random r;
+	public static final String [] acts = {"PASS", "DROP", "CORRUPT"};
+
 
 	network(){
 		r = new Random();
@@ -18,15 +21,16 @@ public class network {
   		startServer(port);
   }
   public void startServer(int port) throws IOException {	//open server socket
-      serverSocket = new ServerSocket(port);
+
+			r = new Random();
+			serverSocket = new ServerSocket(port);
       startClient();
   }
 
   public void startClient() throws IOException {		//open client socket
   	senderSocket = serverSocket.accept();
-      out = new PrintWriter(senderSocket.getOutputStream(), true);
-      in = new BufferedReader(new InputStreamReader(senderSocket.getInputStream()));
-      out.println("Hello!");
+    out = new PrintWriter(senderSocket.getOutputStream(), true);
+    in = new BufferedReader(new InputStreamReader(senderSocket.getInputStream()));
   }
 
   public void stopClient() throws IOException {//close only client
@@ -49,28 +53,36 @@ public class network {
 		}
 		else return -1;//ERROR
 	}
-	Package getPackage(){
-		byte seqNum = in.readLine();
-		byte id = in.readLine();
-		int sum = in.readLine();
-		String data = in.readLine();
-
+	Packet getPacket() throws IOException{
+		String message = "";
+		while (message.equals("")){
+			message = in.readLine();
+		}
+		System.out.println("not null");
+		Scanner scan = new Scanner(message);
 		System.out.println("Printing Package: " );
 
+		int sequenceNum = scan.nextInt();
+		int id = scan.nextInt();
+		int sum = scan.nextInt();
+		String data = scan.next();
 
-		Package temp = new Package(seqNum, id, sum, data);
+		Packet temp = new Packet(sequenceNum, id, sum, data);
 		temp.print();
 		return temp;
 	}
-	void doAction(Package p, int action){
+	void doAction(Packet p, int action){
 		if (action == 0){ //PASS
-			System.out.println("PASS");
+			out.println("PASS");
 		}
 		else if (action == 1){ //DROP
-			System.out.println("DROP");
+			out.println("ACK2");
 		}
 		else if (action == 2){ //CORRUPT
-			System.out.println("CORRUPT");
+			p.corrupt();
+			out.println(p.getseqNum() + " " + p.getID() + " " +
+				p.getCheckSum() + " " + p.getData());
+			//out.println("CORRUPT");
 		}
 		System.out.println();
 	}
@@ -84,9 +96,11 @@ public class network {
 		try {
 			network net = new network(1704);
 			while (running){
-				Package p = net.getPackage();
+				Packet p = net.getPacket();
 				action = net.getAction();
 				net.doAction(p, action);
+				System.out.println("Recieved: Packet " +
+					p.getseqNum() + ", " + p.getID() + ", " + acts[action]);
 			}
 		}
 		catch (Exception e){

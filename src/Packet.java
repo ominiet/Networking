@@ -1,19 +1,23 @@
 
 public class Packet {
-	byte sequenceNum;
-	byte ID;
+	int sequenceNum;
+	int ID;
 	int CheckSum;
 	String data;
-	static byte idCount = 1;
+	static int idCount = 1;
+	static int seqNumAssigner = 0;
+	static int seqAdder = 1;
 
 	Packet(String input){//for creating packets from the sender
-		this.sequenceNum = 0;
+		this.sequenceNum = seqNumAssigner;
 		this.ID = idCount;
 		this.CheckSum = sum(input);
 		this.data = input;
 		idCount ++;
+		seqNumAssigner += seqAdder;
+		seqAdder *= -1;
 	}
-	Packet(byte seq, byte id, int sum, String data){//for creating packets by network and rec
+	Packet(int seq, int id, int sum, String data){//for creating packets by network and rec
 		this.sequenceNum = seq;
 		this.ID = id;
 		this.CheckSum = sum;
@@ -26,7 +30,7 @@ public class Packet {
 		}
 		return sum;
 	}
-	byte getID(){
+	int getID(){
 		return ID;
 	}
 	int getCheckSum(){
@@ -35,7 +39,7 @@ public class Packet {
 	String getData() {
 		return data;
 	}
-	byte getseqNum(){
+	int getseqNum(){
 		return sequenceNum;
 	}
 	void corrupt() {

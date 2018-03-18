@@ -22,10 +22,8 @@ public class sender {
 		senderSocket.close();
 	}
 	void sendMessage(Packet p){
-		out.println(p.getseqNum());
-		out.println(p.getID());
-		out.println(p.getCheckSum());
-		out.println(p.getData());
+		out.println(p.getseqNum() + " " + p.getID() + " " +
+			p.getCheckSum() + " " + p.getData());
 	}
 
 	public static void main(String[] args) {
@@ -48,13 +46,17 @@ public class sender {
 				//p.print();
 
 			}
+			s.stopSender();
 		}
 		catch(Exception e){
 			e.printStackTrace();
-			System.out.println("Ya done fucked up mate!");
+
+		}
+		finally {
+
 		}
 
-		System.out.println(fileName);
+		// System.out.println(fileName);
 
 
 		// Packet pack = new Packet("abcd");
