@@ -52,3 +52,12 @@ public class Packet {
 		System.out.println("Data: " + data);
 	}
 }
+// public class Ack {
+// 	private int sequenceNum;
+// 	private int checkSum = 0;
+
+// 	void corrupt(){
+// 		this.checkSum ++;
+// 	}
+
+// }
