@@ -36,7 +36,7 @@ public class sender {
 		String res;
 
 		try {
-			sender s = new sender("localhost",1704);
+			sender s = new sender(url,port);
 			Scanner input = new Scanner(file);
 			while(input.hasNext()){
 				p = new Packet(input.next());
