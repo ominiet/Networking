@@ -4,4 +4,4 @@ javac sender.java
 javac network.java
 javac receiver.java
 echo "done compiling..."
-echo "setting up local run..."
+

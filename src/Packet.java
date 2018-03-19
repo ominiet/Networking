@@ -23,7 +23,7 @@ public class Packet {
 		this.CheckSum = sum;
 		this.data = data;
 	}
-	int sum(String input) {
+	int sum(String input) {	//adds up values of all chars in data
 		int sum = 0;
 		for (int i = 0; i < input.length(); i ++) {
 			sum += input.charAt(i);
@@ -42,22 +42,13 @@ public class Packet {
 	int getseqNum(){
 		return sequenceNum;
 	}
-	void corrupt() {
+	void corrupt() {	//add one to checksum
 		this.CheckSum += 1;
 	}
-	void print() {
+	void print() {	//helped with some debugging
 		System.out.println("Sequence number: " + sequenceNum);
 		System.out.println("ID: " + ID);
 		System.out.println("Check Sum: " + CheckSum);
 		System.out.println("Data: " + data);
 	}
 }
-// public class Ack {
-// 	private int sequenceNum;
-// 	private int checkSum = 0;
-
-// 	void corrupt(){
-// 		this.checkSum ++;
-// 	}
-
-// }

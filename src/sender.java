@@ -28,10 +28,9 @@ public class sender {
 	}
 
 	public static void main(String[] args) {
-		// String URL = args[0];
-		// int port = Integer.parseInt(args[1]);
-		String fileName = /*args[2]*/"message.txt";
-		//FileReader fileReader;
+		String URL = args[0];
+		int port = Integer.parseInt(args[1]);
+		String fileName = args[2];
 		File file = new File(fileName);
 		Packet p;
 		String res;
@@ -63,9 +62,6 @@ public class sender {
 				else{
 					System.out.println("Waiting ACK" + p.getseqNum() + ", " + s.count + ", " + res + ", send Packet" + ((p.getseqNum() == 0) ? 1 : 0));
 				}
-				//System.out.println(res);
-
-
 			}
 			s.out.println(-1);
 			s.stopSender();
@@ -73,19 +69,6 @@ public class sender {
 		catch(Exception e){
 			e.printStackTrace();
 		}
-		finally {
-
-		}
-
-		// System.out.println(fileName);
-
-
-		// Packet pack = new Packet("abcd");
-		// pack.print();
-		// pack = new Packet("cd");
-		// pack.print();
-		// pack.corrupt();
-		// pack.print();
 	}
 
 }
