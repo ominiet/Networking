@@ -28,7 +28,7 @@ public class sender {
 	}
 
 	public static void main(String[] args) {
-		String URL = args[0];
+		String url = args[0];
 		int port = Integer.parseInt(args[1]);
 		String fileName = args[2];
 		File file = new File(fileName);
