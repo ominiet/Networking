@@ -1,7 +1,5 @@
 echo "compiling java..."
-javac Packet.java
-javac sender.java
-javac network.java
-javac receiver.java
+javac linkstate.java
 echo "done compiling..."
 echo "setting up local run..."
+java linkstate networktest.txt
