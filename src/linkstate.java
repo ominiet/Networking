@@ -61,7 +61,8 @@ public class linkstate{
     }
 
     printLineSpacer(size);
-    System.out.print("     0           " + (startingNode + 1) + "       ");
+    System.out.print("     0    " + (startingNode + 1) + "       ");
+    for(int i = 1; i < size; i++) System.out.print("  ");
     for(int i = 1; i < size; i++){
       if (dist[i] !=-1)
         System.out.print("   " + dist[i] + ", " + (prev[i] + 1) + "    ");
@@ -74,19 +75,68 @@ public class linkstate{
     //LOOP of algorithm
     for (int i = 1; i<size;i++){
       printLineSpacer(size);
-
-      //find the unchecked node with the minimum distance
+      int w = -1;
+      //find the unchecked neighbor node with the minimum distance
       for (int j = 0; j < nPrime.length; j++){
-
+        if (nPrime[j] == 0){  
+          if(w == -1) w = j;  //set to first unchecked node then compare
+          else {
+            if (dist[j] != -1 && (dist[j] < dist[w])){//think about case where -1 (infinity) is lowest distance
+              w = j;
+            }
+          }
+        }
       }
+      //System.out.print(w);
+      if (w == -1) return;   //Something's wrong
       //add w to N'
+      nPrime[w] = 1;
 
-      //update D(j) for each neighbror of i that isn't in N'
+      //update D(j) for each neighbor of w that isn't in N'
       //  D(j) = min (D(v), D(w) + c(w,v))
+      for (int j = 0; j < size; j++){
+        if(nPrime[j] != 1){  //not checked
+          if(isShorterPath(w,j,dist,arr)){  //returns true if there is a newer shorter path
+            prev[j] = w;
+            dist[j] = arr[w][j] + dist[w];
+          }
+        }
+      }
+      //display Step results
+      printStepResults(i,dist,prev,nPrime);
 
 
       //if all have been checked, finish (satisfied by for loop)
     }
+  }
+  static boolean isShorterPath(int i,int j, int[] dist,int[][] arr){
+    if (arr[i][j] == -1) return false;//if -1(infinity) then there is no link so dont bother comparing
+    else if(dist[j] == -1)return true;//if current distance is infinity than anything else must be faster
+    else if(dist[j] > dist[i] + arr[i][j])return true;
+
+    return false;// if not, its current path must be faster
+
+  }
+  static void printStepResults(int step, int[] dist, int[] prev, int[] nPrime) {
+    System.out.print("     " + step + "    ");
+    int numOfSpaces = 0;
+    for (int i = 0; i < nPrime.length; i ++){
+      if (nPrime[i] != 0 )
+        System.out.print((i + 1) + ",");
+      else numOfSpaces ++;
+    }
+
+    while(numOfSpaces > 0){
+      System.out.print("  ");
+      numOfSpaces--;
+    }
+    for(int i = 1; i < dist.length; i++){
+      if (dist[i] !=-1)
+        System.out.print("   " + dist[i] + ", " + (prev[i] + 1) + "    ");
+      else
+        System.out.print("    Inf    ");
+    }
+    System.out.println();
   }
 
   public static void main(String[] args){
