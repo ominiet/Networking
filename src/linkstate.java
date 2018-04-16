@@ -128,7 +128,7 @@ public class linkstate{
 				if(nPrime[i] == 0 ){
 					System.out.print("\t" + dist[i] + ", " + (prev[i] + 1) + "\t");
 				}
-				else System.out.print("\t-\t");
+				else System.out.print("\t\t");
 			else
 				System.out.print("\tInf\t");
 		}
@@ -151,7 +151,7 @@ public class linkstate{
 
 			//read file to get 2d array with the adjacency matrix
 			while(input.hasNext()){
-				line = input.next();
+				line = input.nextLine();
 				if (line.equals("EOF.")) break; //don't bother adding in EOF
 				String [] tokens = line.split(",");
 				tokens[tokens.length-1] = tokens[tokens.length-1].substring(0,tokens[tokens.length-1].length() -1);
